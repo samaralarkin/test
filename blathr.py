@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect
 import sqlite3
 import datetime
+import cgi
 import dateutil.parser
 
 app = Flask(__name__)
@@ -12,7 +13,7 @@ def home():
     c.execute("select * from posts order by timestamp desc")
     out = ''
     for post in c.fetchall():
-        out += '<p>' + post[1] + '</p><hr>'
+        out += '<p>' + cgi.escape(post[1]) + '</p><hr>'
     db.close()
     return render_template('template.html', posts=out)
     
